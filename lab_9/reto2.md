@@ -41,16 +41,54 @@ npm install bootstrap
 
 # 3️⃣ Importar Bootstrap
 
-Editar:
+Editar el archivo:
 
 ```bash
 src/index.js
 ```
 
-Agregar:
+---
+
+## 📌 ¿Qué debes modificar?
+
+Buscar:
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+```
+
+---
+
+## ✅ Agregar Bootstrap
+
+Debajo de los imports agregar:
 
 ```javascript
 import 'bootstrap/dist/css/bootstrap.min.css';
+```
+
+---
+
+## ✅ Resultado final esperado
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 ```
 
 ---
@@ -63,7 +101,15 @@ Editar:
 src/App.js
 ```
 
-Reemplazar contenido por:
+---
+
+# ❌ Eliminar todo el contenido anterior
+
+Debes borrar completamente el contenido que viene por defecto.
+
+---
+
+# ✅ Reemplazar por el siguiente código
 
 ```javascript
 import { useEffect, useState } from 'react';
@@ -74,7 +120,7 @@ function App() {
 
   useEffect(() => {
 
-    fetch('http://IP_VPS:3000/api/estudiantes/')
+    fetch('http://IP_VPS:8000/api/estudiantes/')
       .then(res => res.json())
       .then(data => setDatos(data));
 
@@ -118,12 +164,196 @@ export default App;
 
 ---
 
-# ▶️ 5️⃣ Ejecutar React
+# 📌 IMPORTANTE — Cambiar la IP del servidor
 
-Desde la carpeta `frontend` ejecutar:
+Buscar esta línea:
+
+```javascript
+fetch('http://IP_VPS:8000/api/estudiantes/')
+```
+
+---
+
+## ✅ ¿Qué debe modificar el alumno?
+
+Debe reemplazar:
+
+```text
+IP_VPS
+```
+
+por:
+
+- la IP de su servidor
+- localhost
+- o la IP de su máquina virtual
+
+---
+
+## ✅ Ejemplos
+
+### Si trabaja localmente:
+
+```javascript
+fetch('http://127.0.0.1:8000/api/estudiantes/')
+```
+
+o
+
+```javascript
+fetch('http://localhost:8000/api/estudiantes/')
+```
+
+---
+
+### Si usa una VPS:
+
+```javascript
+fetch('http://192.168.1.50:8000/api/estudiantes/')
+```
+
+---
+
+# 5️⃣ Configurar CORS en Django
+
+React y Django trabajan en puertos diferentes.
+
+Por ello Django bloqueará las peticiones si no se configura CORS.
+
+---
+
+# ✅ Instalar django-cors-headers
+
+Desde el backend ejecutar:
 
 ```bash
-npm start -- --host 0.0.0.0
+pip install django-cors-headers
+```
+
+---
+
+# 6️⃣ Modificar `settings.py`
+
+Editar:
+
+```bash
+backend/settings.py
+```
+
+---
+
+## ✅ Agregar en INSTALLED_APPS
+
+Buscar:
+
+```python
+INSTALLED_APPS = [
+```
+
+Agregar:
+
+```python
+'corsheaders',
+```
+
+---
+
+## ✅ Resultado esperado
+
+```python
+INSTALLED_APPS = [
+
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'rest_framework',
+    'corsheaders',
+
+    'api',
+]
+```
+
+---
+
+# 7️⃣ Agregar Middleware
+
+Buscar:
+
+```python
+MIDDLEWARE = [
+```
+
+Agregar al inicio:
+
+```python
+'corsheaders.middleware.CorsMiddleware',
+```
+
+---
+
+## ✅ Resultado esperado
+
+```python
+MIDDLEWARE = [
+
+    'corsheaders.middleware.CorsMiddleware',
+
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+```
+
+---
+
+# 8️⃣ Permitir conexión desde React
+
+Al final de `settings.py` agregar:
+
+```python
+CORS_ALLOW_ALL_ORIGINS = True
+```
+
+---
+
+# ⚠️ IMPORTANTE
+
+Esto solo debe usarse en desarrollo.
+
+En producción se recomienda:
+
+```python
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+```
+
+---
+
+# ▶️ 9️⃣ Ejecutar Django
+
+Desde la carpeta backend:
+
+```bash
+python manage.py runserver 0.0.0.0:8000
+```
+
+---
+
+# ▶️ 🔟 Ejecutar React
+
+Desde la carpeta frontend ejecutar:
+
+```bash
+npm start
 ```
 
 ---
@@ -133,14 +363,25 @@ npm start -- --host 0.0.0.0
 Abrir:
 
 ```text
+http://localhost:3000
+```
+
+o:
+
+```text
 http://IP_VPS:3000
 ```
+
+---
+
+# ✅ Resultado esperado
 
 Deberías visualizar:
 
 - Tabla Bootstrap
 - Datos obtenidos desde Django
 - Lista de estudiantes desde la API
+- Información almacenada en MySQL
 
 ---
 
@@ -167,6 +408,8 @@ Usuario final
 - Usar variables de entorno para passwords
 - No usar `CORS_ALLOW_ALL_ORIGINS=True` en producción
 - Utilizar `.env`
+- Validar datos con serializers
+- Usar HTTPS en producción
 
 ---
 
@@ -175,6 +418,10 @@ Usuario final
 - Separar componentes
 - Usar Axios en lugar de fetch
 - Implementar manejo de errores
+- Crear carpetas:
+  - components
+  - services
+  - pages
 
 ---
 
@@ -189,6 +436,7 @@ Puedes mejorar el proyecto agregando:
 - ☁️ Deploy con Docker
 - 🔥 Nginx + Gunicorn
 - 📦 CI/CD con GitHub Actions
+- 📱 Diseño responsive
 
 ---
 
@@ -200,4 +448,5 @@ Al finalizar tendrás:
 ✅ Base de datos MySQL conectada  
 ✅ Frontend React consumiendo datos  
 ✅ Arquitectura fullstack moderna  
-✅ Proyecto listo para escalar
+✅ Proyecto listo para escalar  
+✅ Comunicación React + Django funcionando
