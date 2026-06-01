@@ -495,3 +495,44 @@ function Reto3Dashboard() {
 
 export default Reto3Dashboard;
 ```
+# ⚙ Ponerlo en PRODUCCION
+
+Dentro del directorio raiz escribe lo siguiente:
+```bash
+sudo npm run build
+```
+Carga ahora o modifica tu archivo de NGINX
+
+```NGINX
+server {
+    listen 80;
+    listen [::]:80;
+    server_name <<dominio>>; 
+
+    root <ruta>/frontend/dist;
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, no-transform";
+    }
+}
+```
+
+Comprueba la configuracion y reinicia el sistema
+```bash
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+Una vez comprobado que funciona, habilita el HTTPS con Letsencrypt 
+```Bash
+sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email tu_correo@gmail.com -d django.arequipa.site
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
