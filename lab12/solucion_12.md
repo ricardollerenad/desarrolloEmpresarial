@@ -503,6 +503,7 @@ sudo npm run build
 ```
 Carga ahora o modifica tu archivo de NGINX
 
+### /etc/nginx/conf.d/<<archivo>>.conf
 ```NGINX
 server {
     listen 80;
