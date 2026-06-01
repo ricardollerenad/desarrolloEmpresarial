@@ -504,14 +504,14 @@ sudo npm run build
 ```
 Carga ahora o modifica tu archivo de NGINX
 
-### /etc/nginx/conf.d/<<archivo>>.conf
+### sduo nano /etc/nginx/conf.d/<<archivo>>.conf
 ```NGINX
 server {
     listen 80;
     listen [::]:80;
     server_name <<dominio>>; 
 
-    root <ruta>/frontend/dist;
+    root <<ruta>>/frontend/dist;
     index index.html index.htm;
 
     location / {
