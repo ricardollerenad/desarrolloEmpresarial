@@ -16,7 +16,7 @@ npm run dev -- --host 0.0.0.0
 
 ## 📂 PASO 2: Arquitectura del Proyecto
 Para mantener el código limpio y mantenible a medida que el proyecto crece, utilizaremos una Arquitectura por Capas. Crea las siguientes carpetas dentro del directorio src/:textsrc/
-
+<pre>
 📂Frontend
 │
 ├── assets/          # 📦 Archivos estáticos (Imágenes, logos, iconos)
@@ -51,6 +51,7 @@ Para mantener el código limpio y mantenible a medida que el proyecto crece, uti
 ├── App.jsx          # 🚀 Componente raíz de la aplicación (Conector principal)
 ├── main.jsx         # 📌 Punto de entrada al DOM de React
 └── index.css        # 🎨 Estilos globales de la aplicación
+</pre>
 
 ```bash
     main.jsx --> App.jsx
