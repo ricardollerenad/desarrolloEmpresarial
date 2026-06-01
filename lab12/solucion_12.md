@@ -504,14 +504,14 @@ sudo npm run build
 ```
 Carga ahora o modifica tu archivo de NGINX
 
-### sduo nano /etc/nginx/conf.d/<<archivo>>.conf
+### sudo nano /etc/nginx/conf.d/TU_NOMBRE_DE_ARCHIVO.conf
 ```NGINX
 server {
     listen 80;
     listen [::]:80;
-    server_name <<dominio>>; 
+    server_name <<DOMINIO>>; 
 
-    root <<ruta>>/frontend/dist;
+    root <<RUTA>>/frontend/dist;
     index index.html index.htm;
 
     location / {
@@ -533,7 +533,9 @@ sudo systemctl restart nginx
 
 Una vez comprobado que funciona, habilita el HTTPS con Letsencrypt 
 ```Bash
-sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email tu_correo@gmail.com -d django.arequipa.site
+sudo apt install -y python3 python3-pip
+sudo apt install -y certbot
+sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email tu_correo@gmail.com -d TU_DOMINIO
 sudo nginx -t
 sudo systemctl restart nginx
 ```
